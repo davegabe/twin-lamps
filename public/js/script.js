@@ -2,7 +2,7 @@ async function turnOn() {
     document.getElementById("power").disabled = true;
     setTimeout(() => document.getElementById("power").disabled = false, 3000);
     let brightness = document.getElementById("brightness").value;
-    await fetch("/lamp", {
+    await fetch("/bulb", {
         method: "POST",
         headers: {
             "Accept": "application/json",

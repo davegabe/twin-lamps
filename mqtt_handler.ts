@@ -74,8 +74,8 @@ class MqttHandler {
 
   /** Make the bulb blink */
   blink(brightness: number) {
-    console.log(`shellies/${this.shellyType}-${this.id}/light/0/set`, `{"brightness": ${brightness}}`);
-    if (brightness < 0 || brightness > 100 || brightness === undefined || brightness === null || brightness === NaN) brightness = 50;
+    if (brightness === undefined || brightness === null || brightness === NaN) brightness = 50;
+    brightness = Math.max(Math.min(brightness, 100), 1);
     this.mqttClient.publish(`shellies/${this.shellyType}-${this.id}/light/0/set`, this.getJSONPayload({ brightnessVal: brightness }), { qos: 2 }, (err: any) => {
       if (err) return;
       setTimeout(() => {
