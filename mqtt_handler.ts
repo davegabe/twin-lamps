@@ -36,7 +36,7 @@ class MqttHandler {
    */
   constructor(shellyType: string, id: string) {
     this.mqttClient = null;
-    this.host = process.env.MQTT_HOST;
+    this.host = "mqtt://" + process.env.MQTT_HOST;
     this.username = process.env.USER; // mqtt credentials if these are needed to connect
     this.password = process.env.PASSWORD;
     this.id = id;

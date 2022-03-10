@@ -17,7 +17,7 @@ WEBSITENAME=Website name
 PORT=Website port
 LAMPS=Device ID list comma separated (e.g. xxxxx,xxxxx)
 LAMPSTYPE=Shelly bulb type list comma separated (e.g. ShellyVintage,ShellyBulbDuo)
-MQTT_HOST=MQTT broker address (e.g. mqtt://test.mosquitto.org)
+MQTT_HOST=MQTT broker address (e.g. test.mosquitto.org)
 USER=MQTT broker username (also used for the web-interface)
 PASSWORD=MQTT broker password (also used for the web-interface)
 ```
