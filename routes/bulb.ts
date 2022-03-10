@@ -15,7 +15,7 @@ for (let i = 0; i < lampsIds.length; i++) {
 }
 
 /** Token corresponding to user and password (easy auth) */
-const authToken = sha256(process.env.USER + process.env.PASSWORD).toString();
+const authToken = sha256(process.env.USERN + process.env.PASSWORD).toString();
 
 // POST blink lamp (button pressed)
 router.post("/", (req, res) => {

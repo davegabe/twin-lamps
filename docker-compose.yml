@@ -1,0 +1,59 @@
+version: "3.9"
+services:
+  web:
+    image: "davegabe/twin-lamps"
+    container_name: "twin-lamps"
+    volumes:
+      - ./public/android-chrome-192x192.png:/usr/src/app/public/android-chrome-192x192.png # files for favicon
+      - ./public/android-chrome-512x512.png:/usr/src/app/public/android-chrome-512x512.png # files for favicon
+      - ./public/apple-touch-icon.png:/usr/src/app/public/apple-touch-icon.png # files for favicon
+      - ./public/browserconfig.xml:/usr/src/app/public/browserconfig.xml # files for favicon
+      - ./public/favicon-16x16.png:/usr/src/app/public/favicon-16x16.png # files for favicon
+      - ./public/favicon-32x32.png:/usr/src/app/public/favicon-32x32.png # files for favicon
+      - ./public/favicon.ico:/usr/src/app/public/favicon.ico # files for favicon
+      - ./public/mstile-150x150.png:/usr/src/app/public/mstile-150x150.png # files for favicon
+      - ./public/safari-pinned-tab.svg:/usr/src/app/public/safari-pinned-tab.svg # files for favicon
+      - ./public/site.webmanifest:/usr/src/app/public/site.webmanifest # files for favicon
+    ports:
+      - "${DOCKERPORT:-3000}:${PORT:-3000}" # default to 3000 if not set
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.$WEBSITENAME.rule=Host(`${HOST:-localhost}`)" # default to localhost if not set
+      - "traefik.http.routers.$WEBSITENAME.entrypoints=websecure"
+      - "traefik.http.routers.$WEBSITENAME.tls.certresolver=le"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.redirs.rule=hostregexp(`{host:.+}`)"
+      - "traefik.http.routers.redirs.entrypoints=web"
+      - "traefik.http.routers.redirs.middlewares=redirect-to-https"
+    environment:
+      - WEBSITENAME
+      - MQTT_HOST
+      - USERN
+      - PASSWORD
+      - LAMPS
+      - LAMPSTYPE
+      - PORT
+
+  mqtt:
+    image: "eclipse-mosquitto"
+    container_name: "mosquitto"
+    volumes:
+      - ./mosquitto:/mosquitto # files for mosquitto config
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mqtt.rule=Host(`mttq.$HOST`)"
+      - "traefik.http.routers.mqtt.entrypoints=websecure"
+      - "traefik.http.routers.mqtt.tls.certresolver=le"
+
+      - "traefik.tcp.routers.mqtt.rule=HostSNI(`*`)"
+      - "traefik.tcp.routers.mqtt.tls.certresolver=le"
+      - "traefik.tcp.services.mqtt.loadbalancer.server.port=1883"
+
+      - "traefik.tcp.routers.mqtt.entrypoints=mqtt"
+      
+      - "traefik.http.services.mqtt.loadbalancer.server.port=9001"

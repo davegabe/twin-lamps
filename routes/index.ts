@@ -3,7 +3,7 @@ import sha256 from "crypto-js/sha256";
 const router = express.Router();
 
 /** Token corresponding to user and password (easy auth) */
-const authToken = sha256(process.env.USER + process.env.PASSWORD).toString();
+const authToken = sha256(process.env.USERN + process.env.PASSWORD).toString();
 
 // GET home page
 router.get("/", (req, res) => {
