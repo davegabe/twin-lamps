@@ -1,14 +1,14 @@
 # Twin Lamps
 
-Open-source project inspired by the idea of "Long Distance Lamp" (e.g. Friendship Lamp).  
-This makes two (or more) bulbs blink at the same time using [MQTT](https://mqtt.org/).  
-Bulbs can be on different networks, they just have to be connected to the same MQTT broker.
+Open-source project inspired by the idea of "Long Distance Lamp" (e.g. [Friendship Lamps](https://www.friendlamps.com/)).  
+This makes two (or even more) bulbs blink at the same time using [MQTT](https://mqtt.org/). Bulbs can be on different networks, they just have to be connected to the same MQTT broker.
 
-## What do I need?
+![Two Lamps Demo](screenshots/two-lamps-demo.gif)
 
-You only need two (or even more, if you want) [Shelly](https://shelly.cloud/) bulbs. You don't need any soldering skills as the Shelly web-panel already provides a good interface for MQTT configuration.  
-You also need a MQTT broker to make the bulbs and the server communicate.  
-I configured [Mosquitto](https://mosquitto.org/) ready-to-run on docker or you can also use [other solutions](https://mqtt.org/software/) (even cloud brokers).
+## What do you need?
+
+You only need at least two [Shelly](https://shelly.cloud/) bulbs. You don't need any soldering skills as the Shelly web-panel already provides a good interface for MQTT configuration.  
+You also need a MQTT broker to make the bulbs and the server communicate. I already configured [Mosquitto](https://mosquitto.org/) for docker in this guide but you can also use [other solutions](https://mqtt.org/software/) (even cloud brokers).
 
 ## How does it work?
 
@@ -54,7 +54,7 @@ Mosquitto needs to be configured to allow authentication. Use the following comm
 mosquitto_passwd -c mosquitto/config/mosquitto.passwd <username>
 ```
 
-After that you can run the docker image:
+Now you're ready to run the docker image:
 
 ```bash
 docker-compose --env-file .env up -d
@@ -62,6 +62,9 @@ docker-compose --env-file .env up -d
 
 ## TODO:
 
+- Add option to change duration of blink
+- Add option to set permanent status on/off
+- Add label count connected device or warning if not all devices are connected
 - Better authentication system for multiple users
 - Websocket to sync the lamp status on the web-interface
 - Multi-stage docker image
