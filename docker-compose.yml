@@ -46,7 +46,7 @@ services:
     restart: always
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.mqtt.rule=Host(`mttq.$HOST`)"
+      - "traefik.http.routers.mqtt.rule=Host(`mqtt.$HOST`)"
       - "traefik.http.routers.mqtt.entrypoints=websecure"
       - "traefik.http.routers.mqtt.tls.certresolver=le"
 
